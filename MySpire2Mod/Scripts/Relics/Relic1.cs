@@ -24,7 +24,7 @@ public class TestRelic : CustomRelicModel
     protected override string PackedIconOutlinePath => "res://MySpire2Mod/images/Relics/relic1s.png";
     protected override string BigIconPath => "res://MySpire2Mod/images/Relics/relic1b.png";
 
-
+    //111111
     public override async Task AfterObtained()
     {
         var player = base.Owner;
