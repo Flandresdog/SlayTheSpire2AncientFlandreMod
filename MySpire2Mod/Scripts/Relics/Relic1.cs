@@ -16,7 +16,7 @@ namespace MySpire2Mod.Scripts.Relics;
 public class TestRelic : CustomRelicModel
 {
     // 稀有度
-    public override RelicRarity Rarity => RelicRarity.Rare;
+    public override RelicRarity Rarity => RelicRarity.Ancient;
 
     // 遗物的数值。替换本地化中的{Cards}。
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];

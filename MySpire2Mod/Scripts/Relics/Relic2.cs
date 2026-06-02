@@ -22,7 +22,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 [Pool(typeof(SharedRelicPool))]
 public class AddPowerCardRelic : CustomRelicModel
 {
-    public override RelicRarity Rarity => RelicRarity.Event;
+    public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
     public override string PackedIconPath => "res://MySpire2Mod/images/Relics/Relic2b.png";
