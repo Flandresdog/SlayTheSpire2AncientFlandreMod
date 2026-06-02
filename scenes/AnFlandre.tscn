@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnabsh62c4n1n"]
+
+[ext_resource type="Texture2D" uid="uid://di7og8bvku4rj" path="res://MySpire2Mod/images/ancients/ancient1.jpg" id="1_seihj"]
+
+[node name="AnFlandre" type="Control"]
+layout_mode = 3
+anchor_right = 3.1680002
+anchor_bottom = 3.5330002
+offset_right = -3649.5361
+offset_bottom = -2289.384
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = -6.0
+offset_right = 2558.0
+offset_bottom = 1628.0
+color = Color(1, 0.03137255, 0.039215688, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(1980, 1080)
+layout_mode = 0
+offset_left = -268.0
+offset_top = -85.0
+offset_right = 2039.0
+offset_bottom = 1546.6832
+texture = ExtResource("1_seihj")
+expand_mode = 5
+stretch_mode = 6
