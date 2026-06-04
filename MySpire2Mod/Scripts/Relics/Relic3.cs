@@ -15,6 +15,13 @@ using System;
 using System.Linq;
 using Test.Scripts;
 namespace MySpire2Mod.Scripts.Relics;
+
+using MegaCrit.Sts2.Core.CardSelection;
+using MegaCrit.Sts2.Core.Commands;  
+using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
+
 [Pool(typeof(SharedRelicPool))]
 public class TestRelic3 : CustomRelicModel
 {
@@ -29,36 +36,73 @@ public class TestRelic3 : CustomRelicModel
 
     public override async Task AfterObtained()
     {
+        //    var player = base.Owner;
+        //    if (player == null) return;
+
+        //    // 获取牌组中所有攻击牌
+        //    var attackCards = player.Deck.Cards.Where(card => card.Type == CardType.Attack).ToList();
+
+        //    if (attackCards.Count == 0)
+        //    {
+        //        return;
+        //    }
+
+
+        //    //选择 4 张（如果不足 4 张，就全选）
+        //    int count = Math.Min(4, attackCards.Count);
+        //    var selectedCards = attackCards.Take(count).ToList();
+
+        //    // 获取附魔模型
+        //    var enchantment = ModelDb.Enchantment<TestEnchantment>();
+
+        //    // 给选中的卡牌附加附魔
+        //    foreach (var card in selectedCards)
+        //    {
+        //        CardCmd.Enchant<TestEnchantment>(card, 1);
+        //    }
+
+        //    base.Flash();
+        //    await Task.CompletedTask;
+
+        //}
         var player = base.Owner;
         if (player == null) return;
 
-        // 获取牌组中所有攻击牌
-        var attackCards = player.Deck.Cards.Where(card => card.Type == CardType.Attack).ToList();
-
-        if (attackCards.Count == 0)
+        // 先获取附魔实例
+        var enchantment = ModelDb.Enchantment<TestEnchantment>();
+        if (enchantment == null)
         {
-            Log.Info("没有攻击牌，无法附加附魔");
+            Log.Info("找不到附魔 TestEnchantment");
             return;
         }
 
-        //选择 4 张（如果不足 4 张，就全选）
-        int count = Math.Min(4, attackCards.Count);
-        var selectedCards = attackCards.Take(count).ToList();
+        // 创建选择器配置：选择 4 张
+        CardSelectorPrefs cardSelectorPrefs = new CardSelectorPrefs(
+            CardSelectorPrefs.EnchantSelectionPrompt,
+            4
+        );
 
-        // 获取附魔模型
-        var enchantment = ModelDb.Enchantment<TestEnchantment>();
+        // 从牌组中选择卡牌
+        var selectedCards = await CardSelectCmd.FromDeckForEnchantment(
+            player,
+            enchantment,  // 传附魔实例，不是泛型
+            1,            // Amount
+            cardSelectorPrefs
+        );
 
         // 给选中的卡牌附加附魔
         foreach (var card in selectedCards)
         {
-            CardCmd.Enchant<TestEnchantment>(card, 1);
+             CardCmd.Enchant<TestEnchantment>(card, 1);
+
+            // 播放特效
+            var vfx = NCardEnchantVfx.Create(card);
+            if (vfx != null && NRun.Instance != null)
+            {
+                NRun.Instance.GlobalUi.CardPreviewContainer.AddChild(vfx);
+            }
         }
 
         base.Flash();
-        await Task.CompletedTask;
-
     }
-
-    // 初始遗物的升级可以写这里
-    // public override RelicModel? GetUpgradeReplacement() => ModelDb.Relic<Circlet>().ToMutable();
-}
+    }
