@@ -33,7 +33,7 @@ public class MyAncient : CustomAncientModel
     protected override OptionPools MakeOptionPools => new OptionPools(
         MakePool(
             AncientOption<TestRelic>(),   // 删基础卡
-            AncientOption<Anchor>()     // 船锚
+            AncientOption<TestRelic4>()     // 船锚
         ),
         MakePool(
             AncientOption<AddPowerCardRelic>(),   // 拿先古卡
